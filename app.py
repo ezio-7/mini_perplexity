@@ -15,6 +15,10 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 
 def search_google(query):
+    print("GOOGLE_API_KEY:", GOOGLE_API_KEY)
+    print("GOOGLE_CSE_ID:", GOOGLE_CSE_ID)
+    if not GOOGLE_API_KEY or not GOOGLE_CSE_ID:
+        return []  # Return empty if keys aren't available
     url = f"https://www.googleapis.com/customsearch/v1?key={GOOGLE_API_KEY}&cx={GOOGLE_CSE_ID}&q={query}"
     response = requests.get(url)
     results = response.json().get("items", [])
@@ -46,6 +50,7 @@ def search():
     query = data.get("query")
 
     # Perform the Google search
+    print("Search Results:", search_results)  # Log search results
     search_results = search_google(query)
     summaries = []
     for result in search_results:
