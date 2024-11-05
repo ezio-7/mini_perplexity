@@ -25,6 +25,7 @@ def search_google(query):
     return results
 
 def fetch_and_summarize(url):
+
     try:
         response = requests.get(url, timeout=5)
         if response.status_code != 200:
@@ -50,22 +51,23 @@ def search():
     query = data.get("query")
 
     # Perform the Google search
-    print("Search Results:", search_results)  # Log search results
     search_results = search_google(query)
-    summaries = []
-    for result in search_results:
-        url = result.get("link")
-        title = result.get("title")
-        
-        summary = fetch_and_summarize(url)
-        if summary:
-            summaries.append({
-                "title": title,
-                "url": url,
-                "summary": summary
-            })
-
-    return jsonify(summaries)
+    if search_results:
+        print("Search Results:", search_results)  # Log search results
+        summaries = []
+        for result in search_results:
+            url = result.get("link")
+            title = result.get("title")
+            summary = fetch_and_summarize(url)
+            if summary:
+                summaries.append({
+                    "title": title,
+                    "url": url,
+                    "summary": summary
+                })
+        return jsonify(summaries)
+    else:
+        return jsonify([]), 204
 
 if __name__ == '__main__':
     app.run(debug=True)
