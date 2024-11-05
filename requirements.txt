@@ -4,5 +4,6 @@ python-dotenv
 sumeval
 spacy
 sacrebleu==1.5.1
-BeautifulSoup4
+beautifulsoup4
 gunicorn
+flask-cors
